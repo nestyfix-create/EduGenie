@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduGenie - AI Learning Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6ff;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #answer {
+            margin-top: 25px;
+            text-align: left;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🎓 EduGenie</h1>
+<h2>AI Learning Assistant</h2>
+
+        <p>Learn smarter with the power of Google Gemini</p>
+
+        <input
+            type="text"
+            id="question"
+            placeholder="Ask a question..."
+        >
+
+        <button onclick="askGemini()">Ask</button>
+        <button onclick="summarizeText()">Summarize</button>
+        <button onclick="generateQuiz()">Generate Quiz</button>
+        <button onclick="explainTopic()">Explain Topic</button>
+
+        <div id="answer"></div>
+
+    </div>
+
+    <script>
+    async function askGemini() {
+        const question = document.getElementById("question").value;
+        document.getElementById("answer").innerText = "🤖 EduGenie is thinking...";
+
+        const response = await fetch("/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: question
+            })
+        });
+
+        const data = await response.json();
+
+        document.getElementById("answer").innerText =
+            data.answer || data.error;
+    }
+
+    async function summarizeText() {
+        const question = document.getElementById("question").value;
+
+        const response = await fetch("/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: "Summarize this: " + question
+            })
+        });
+
+        const data = await response.json();
+
+        document.getElementById("answer").innerText =
+            data.answer || data.error;
+    }
+
+    async function generateQuiz() {
+        const question = document.getElementById("question").value;
+
+        const response = await fetch("/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: "Create a short quiz with 5 questions about " + question
+            })
+        });
+
+        const data = await response.json();
+
+        document.getElementById("answer").innerText =
+            data.answer || data.error;
+    }
+    async function explainTopic() {
+    const question = document.getElementById("question").value;
+
+    const response = await fetch("/ask", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            question: "Explain this topic in simple terms for a student: " + question
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("answer").innerText =
+        data.answer || data.error;
+}
+    </script>
+
+</body>
+</html>
